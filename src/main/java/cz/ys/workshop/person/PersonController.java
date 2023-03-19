@@ -1,6 +1,5 @@
 package cz.ys.workshop.person;
 
-import cz.ys.workshop.department.dto.DepartmentObject;
 import cz.ys.workshop.person.dto.PersonObject;
 
 import java.util.List;

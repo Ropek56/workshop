@@ -1,6 +1,6 @@
 package cz.ys.workshop.person;
 
-import cz.ys.workshop.department.dto.DepartmentObject;
+import cz.ys.workshop.department.model.DepartmentEntity;
 import cz.ys.workshop.person.dto.PersonObject;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -26,8 +26,18 @@ public class PersonService {
     }
     
     @Transactional(readOnly = true)
+    public PersonObject findByDepartment(String number) {
+        return mapper.toObject(repo.findById(number).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+    }
+    
+    @Transactional(readOnly = true)
     public List<PersonObject> findAll() {
         return mapper.toObject(repo.findAll());
+    }
+    
+    @Transactional(readOnly = true)
+    public List<PersonObject> findPersonsByDepartment(DepartmentEntity department) {
+    	return mapper.toObject(repo.getPersonByDepartment(department));
     }
 
 

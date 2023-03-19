@@ -6,7 +6,6 @@ import cz.ys.workshop.person.PersonService;
 import cz.ys.workshop.person.dto.PersonObject;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -35,10 +34,8 @@ public class DepartmentService {
     
     @Transactional(readOnly = true)
     public List<PersonObject> findPersonsByDepartment(String number) {
-    	List<PersonObject> persons = personService.findAll().stream()
-    			.filter((person) -> person.departmentNumber().equals(number))
-                .collect(Collectors.toList());
-    	return persons;
+    	DepartmentEntity depo = repo.findById(number).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    	return personService.findPersonsByDepartment(depo);
     }
 
     @Transactional(readOnly = true)
